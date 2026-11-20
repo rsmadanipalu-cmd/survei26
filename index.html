@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Survei Kepuasan Pasien | RSUD Madani Palu</title>
+<meta name="description" content="Survei Kepuasan Masyarakat RSUD Madani Palu. Tanpa nama, sekitar 2 menit.">
+<meta name="theme-color" content="#0F5C6E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230F5C6E'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --page: #F4F7FA;
+    --surface: #FFFFFF;
+    --ink: #1D2D3F;
+    --muted: #667789;
+    --line: #DFE7EE;
+    --primary: #087C83;
+    --primary-dark: #06676D;
+    --primary-soft: #E8F5F4;
+    --accent: #D8A43B;
+    --success: #24845D;
+    --error: #B42318;
+    --error-soft: #FEF0EF;
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--page);
+    color: var(--ink);
+    font-family: "Plus Jakarta Sans", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .pita {
+    display: block;
+    width: 100%;
+    height: 5px;
+    background: var(--primary);
+  }
+
+  .kepala {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 26px 24px 18px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+  }
+  .tanda { width: 44px; height: 44px; flex: none; }
+  .kepala strong {
+    display: block;
+    color: var(--ink);
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .kepala span { display: block; color: var(--muted); font-size: .84rem; }
+
+  main {
+    width: min(100% - 32px, 760px);
+    min-height: 390px;
+    margin: 0 auto 30px;
+    padding: 30px 36px 36px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    box-shadow: 0 10px 32px rgba(28, 54, 77, .06);
+  }
+
+  .progres { margin: 0 0 32px; }
+  .progres[hidden] { display: none; }
+  .progres-teks {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 9px;
+    color: var(--muted);
+    font-size: .86rem;
+    font-weight: 600;
+  }
+  .progres-bar {
+    height: 7px;
+    overflow: hidden;
+    border-radius: 99px;
+    background: #E9EEF3;
+  }
+  .progres-isi {
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--primary);
+    transition: width .3s ease;
+  }
+
+  .layar { display: none; }
+  .layar.aktif { display: block; animation: masuk .22s ease; }
+  @keyframes masuk {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .layar.aktif, .progres-isi { animation: none; transition: none; }
+  }
+
+  h1, h2 { outline: none; }
+  .judul-besar {
+    max-width: 620px;
+    margin: 18px 0 14px;
+    color: var(--ink);
+    font-size: clamp(1.9rem, 5vw, 2.55rem);
+    font-weight: 800;
+    line-height: 1.18;
+    letter-spacing: -.04em;
+  }
+  .pengantar {
+    max-width: 590px;
+    margin: 0 0 24px;
+    color: var(--muted);
+    font-size: 1.04rem;
+    line-height: 1.75;
+  }
+  .fakta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 0 0 24px;
+    padding: 0;
+    list-style: none;
+  }
+  .fakta li {
+    padding: 6px 12px;
+    border: 1px solid #DDECEB;
+    border-radius: 8px;
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    font-size: .84rem;
+    font-weight: 700;
+  }
+  .catatan {
+    margin: 0 0 26px;
+    padding: 12px 15px;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    background: #FAFBFC;
+    color: var(--muted);
+    font-size: .9rem;
+  }
+
+  .judul-langkah {
+    margin: 0 0 6px;
+    color: var(--ink);
+    font-size: 1.55rem;
+    font-weight: 800;
+    letter-spacing: -.025em;
+  }
+  .sub { margin: 0 0 25px; color: var(--muted); }
+
+  fieldset { min-width: 0; margin: 0 0 22px; padding: 0 0 20px; border: 0; border-bottom: 1px solid #EDF1F5; }
+  legend, .label-unit {
+    display: block;
+    margin-bottom: 10px;
+    padding: 0;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .chip-grup { display: flex; flex-wrap: wrap; gap: 9px; }
+  .chip-grup label {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: #FFFFFF;
+    color: #46586A;
+    cursor: pointer;
+    font-size: .92rem;
+    font-weight: 600;
+    transition: border-color .15s, background .15s, color .15s;
+  }
+  .chip-grup label:hover { border-color: #9ABFBE; }
+  .chip-grup input:checked + label {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+  }
+  .chip-grup input:focus-visible + label,
+  .opsi input:focus-visible + label {
+    outline: 3px solid rgba(8, 124, 131, .22);
+    outline-offset: 2px;
+  }
+
+  select, textarea {
+    width: 100%;
+    border: 1px solid #CFD9E2;
+    border-radius: 10px;
+    background: #FFFFFF;
+    color: var(--ink);
+    font: inherit;
+    padding: 12px 14px;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  select {
+    min-height: 50px;
+    appearance: none;
+    padding-right: 42px;
+    background-image: linear-gradient(45deg, transparent 50%, #748496 50%), linear-gradient(135deg, #748496 50%, transparent 50%);
+    background-position: calc(100% - 21px) 50%, calc(100% - 15px) 50%;
+    background-size: 6px 6px;
+    background-repeat: no-repeat;
+  }
+  select:focus-visible, textarea:focus-visible {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(8, 124, 131, .12);
+  }
+  textarea { min-height: 135px; resize: vertical; line-height: 1.6; }
+  textarea::placeholder { color: #97A4B1; }
+  .unit-blok { margin-bottom: 25px; }
+
+  .unsur {
+    margin: 0 0 8px;
+    color: var(--primary-dark);
+    font-size: .82rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .pertanyaan {
+    margin: 0 0 9px;
+    color: var(--ink);
+    font-size: clamp(1.25rem, 3.5vw, 1.55rem);
+    font-weight: 750;
+    line-height: 1.4;
+    letter-spacing: -.025em;
+  }
+  .petunjuk { margin: 0 0 18px; color: var(--muted); font-size: .92rem; }
+  .opsi { margin: 20px 0 8px; }
+  .opsi label {
+    display: flex;
+    min-height: 60px;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 10px;
+    padding: 11px 15px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #FFFFFF;
+    color: #3C4D5E;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: border-color .15s, background .15s, transform .1s;
+  }
+  .opsi label:hover { border-color: #9ABFBE; background: #FCFEFE; }
+  .opsi label:active { transform: scale(.995); }
+  .opsi .wajah {
+    display: inline-flex;
+    width: 34px;
+    height: 34px;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #F0F4F7;
+    color: #506477;
+    font-size: .9rem;
+    font-weight: 800;
+  }
+  .opsi input:checked + label {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+  }
+  .opsi input:checked + label .wajah {
+    background: var(--primary);
+    color: #FFFFFF;
+  }
+
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .btn {
+    display: flex;
+    width: 100%;
+    min-height: 52px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--primary);
+    color: #FFFFFF;
+    cursor: pointer;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 800;
+    transition: background .15s, transform .1s;
+  }
+  .btn:hover { background: var(--primary-dark); }
+  .btn:active { transform: translateY(1px); }
+  .btn:disabled { opacity: .65; cursor: progress; }
+  .btn:focus-visible, .btn-kembali:focus-visible {
+    outline: 3px solid rgba(8, 124, 131, .25);
+    outline-offset: 3px;
+  }
+  .btn-kembali {
+    margin-top: 8px;
+    padding: 10px 2px;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    cursor: pointer;
+    font: inherit;
+    font-size: .93rem;
+    font-weight: 700;
+  }
+  .btn-kembali:hover { color: var(--primary-dark); }
+  .aksi { margin-top: 26px; }
+
+  .galat {
+    margin: 16px 0 0;
+    padding: 12px 14px;
+    border: 1px solid #F5D1CD;
+    border-radius: 9px;
+    background: var(--error-soft);
+    color: var(--error);
+    font-size: .9rem;
+    font-weight: 600;
+  }
+  .galat[hidden] { display: none; }
+
+  .centang { width: 76px; height: 76px; margin: 22px 0 8px; }
+  .mode-uji {
+    margin: 0 0 20px;
+    padding: 12px 14px;
+    border: 1px solid #DDECEB;
+    border-radius: 9px;
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    font-size: .9rem;
+  }
+  .mode-uji[hidden] { display: none; }
+  .hitung { margin-top: 14px; color: var(--muted); font-size: .88rem; text-align: center; }
+
+  .kaki {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px 28px;
+    color: var(--muted);
+    font-size: .82rem;
+    text-align: center;
+  }
+  .hp { position: absolute; left: -9999px; }
+
+  @media (max-width: 600px) {
+    .kepala { padding: 20px 20px 15px; }
+    main {
+      width: min(100% - 20px, 760px);
+      min-height: 0;
+      margin-bottom: 22px;
+      padding: 24px 20px 28px;
+      border-radius: 15px;
+    }
+    .judul-besar { margin-top: 12px; }
+    .pengantar { font-size: .98rem; }
+    .fakta { gap: 7px; }
+    .fakta li { font-size: .8rem; }
+    .chip-grup { gap: 8px; }
+    .chip-grup label { padding: 8px 11px; font-size: .88rem; }
+    .opsi label { min-height: 58px; padding: 10px 12px; font-size: .94rem; }
+    .kaki { padding: 0 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="pita" aria-hidden="true"></div>
+
+<header class="kepala">
+  <!-- Ganti SVG ini dengan <img src="logo.png" class="tanda" alt="Logo RSUD Madani"> bila ingin memakai logo resmi -->
+  <svg class="tanda" viewBox="0 0 40 40" aria-hidden="true">
+    <rect width="40" height="40" rx="11" style="fill: var(--teluk)"/>
+    <path d="M16.5 9h7v7.5H31v7h-7.5V31h-7v-7.5H9v-7h7.5z" style="fill: var(--on-teluk)"/>
+  </svg>
+  <div>
+    <strong>RSUD Madani Palu</strong>
+    <span>Survei Kepuasan Masyarakat</span>
+  </div>
+</header>
+
+<main>
+  <div class="progres" id="progres" hidden>
+    <div class="progres-teks"><span id="progres-label">Tentang Anda</span><span id="progres-angka"></span></div>
+    <div class="progres-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="progres-bar"><div class="progres-isi" id="progres-isi"></div></div>
+  </div>
+
+  <!-- 0. Pembuka -->
+  <section class="layar aktif" id="layar-awal">
+    <h1 class="judul-besar" tabindex="-1">Bagaimana pelayanan kami hari ini?</h1>
+    <p class="pengantar">Penilaian Anda membantu RSUD Madani Palu memperbaiki layanan untuk semua pasien dan keluarganya.</p>
+    <ul class="fakta">
+      <li>9 pertanyaan</li>
+      <li>Sekitar 2 menit</li>
+      <li>Tanpa nama</li>
+    </ul>
+    <p class="catatan">Kami tidak meminta nama, NIK, nomor HP, atau nomor rekam medis. Jawaban hanya diolah sebagai data gabungan.</p>
+    <button class="btn" type="button" data-ke="1">Mulai mengisi</button>
+  </section>
+
+  <!-- 1. Profil responden -->
+  <section class="layar" id="layar-profil">
+    <h2 class="judul-langkah" tabindex="-1">Tentang Anda</h2>
+    <p class="sub">Data ini membantu kami membaca hasil survei per kelompok.</p>
+    <form id="form-profil" onsubmit="return false">
+      <div class="unit-blok">
+        <label class="label-unit" for="unit">Unit layanan yang Anda kunjungi</label>
+        <select id="unit" name="unit"></select>
+      </div>
+      <div id="profil-isi"></div>
+    </form>
+    <p class="galat" id="galat-profil" role="alert" hidden></p>
+    <div class="aksi">
+      <button class="btn" type="button" id="lanjut-profil">Lanjut ke pertanyaan</button>
+      <button class="btn-kembali" type="button" data-ke="0">Kembali</button>
+    </div>
+  </section>
+
+  <!-- 2–10. Pertanyaan (diisi oleh skrip) -->
+  <section class="layar" id="layar-tanya">
+    <p class="unsur" id="q-unsur"></p>
+    <h2 class="pertanyaan" id="q-teks" tabindex="-1"></h2>
+    <p class="petunjuk" id="q-petunjuk"></p>
+    <div class="opsi" id="q-opsi" role="radiogroup" aria-labelledby="q-teks"></div>
+    <button class="btn-kembali" type="button" id="kembali-tanya">Kembali</button>
+  </section>
+
+  <!-- 11. Saran -->
+  <section class="layar" id="layar-saran">
+    <h2 class="judul-langkah" tabindex="-1">Ada saran untuk kami?</h2>
+    <p class="sub">Boleh dikosongkan. Tuliskan hal yang perlu diperbaiki atau pelayanan yang menurut Anda sudah baik.</p>
+    <label class="sr" for="saran">Saran dan masukan</label>
+    <textarea id="saran" maxlength="1000" placeholder="Contoh: antrean di farmasi lama, tetapi perawat sangat ramah."></textarea>
+    <input class="hp" type="text" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <p class="galat" id="galat-kirim" role="alert" hidden></p>
+    <div class="aksi">
+      <button class="btn" type="button" id="kirim">Kirim penilaian</button>
+      <button class="btn-kembali" type="button" id="kembali-saran">Kembali</button>
+    </div>
+  </section>
+
+  <!-- 12. Selesai -->
+  <section class="layar" id="layar-selesai">
+    <svg class="centang" viewBox="0 0 84 84" aria-hidden="true">
+      <circle cx="42" cy="42" r="40" style="fill: var(--teluk-soft)"/>
+      <path d="M26 43l11 11 21-23" fill="none" style="stroke: var(--ok)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h2 class="judul-besar" tabindex="-1">Terima kasih</h2>
+    <p class="pengantar">Penilaian Anda sudah terkirim ke tim mutu RSUD Madani Palu. Semoga lekas sehat.</p>
+    <p class="mode-uji" id="mode-uji" hidden>Mode uji: alamat Apps Script belum diisi, jadi jawaban ini tidak disimpan.</p>
+    <button class="btn" type="button" id="ulang">Isi untuk layanan lain</button>
+    <p class="hitung" id="hitung" aria-live="polite"></p>
+  </section>
+</main>
+
+<footer class="kaki">RSUD Madani Palu, Sulawesi Tengah. Survei mengikuti PermenPANRB No. 14 Tahun 2017.</footer>
+
+<script>
+/* ============================================================
+   PENGATURAN — cukup ubah bagian ini
+   ============================================================ */
+const CONFIG = {
+  // Tempel URL Web App dari Google Apps Script (berakhiran /exec).
+  // Jika kosong, halaman berjalan dalam mode uji dan tidak menyimpan data.
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbzQJpYFRqLmXB0s6w3R3flEQeOjHH0yvn_FJ0cGxKXZp0g6lxJo88Y1or4xzFXlln6x/exec",
+  // Detik sebelum kembali ke halaman awal pada mode kios (?kios=1)
+  JEDA_KIOS: 15
+};
+
+// Kode singkat dipakai di tautan QR, misalnya ?unit=igd
+const UNIT = [
+  ["igd", "Instalasi Gawat Darurat (IGD)"],
+  ["rawat-jalan", "Rawat Jalan / Poliklinik Umum"],
+  ["poli-jiwa", "Poliklinik Jiwa"],
+  ["rawat-inap", "Rawat Inap"],
+  ["farmasi", "Farmasi / Apotek"],
+  ["laboratorium", "Laboratorium"],
+  ["radiologi", "Radiologi"],
+  ["rehab-medik", "Rehabilitasi Medik"],
+  ["pendaftaran", "Pendaftaran / Rekam Medis"],
+  ["kasir", "Kasir"],
+  ["lainnya", "Lainnya"]
+];
+
+const PROFIL = [
+  { id: "responden", label: "Anda mengisi sebagai", opsi: ["Pasien", "Keluarga atau pendamping"] },
+  { id: "jk", label: "Jenis kelamin", opsi: ["Laki-laki", "Perempuan"] },
+  { id: "usia", label: "Usia", opsi: ["Di bawah 20", "20–29", "30–39", "40–49", "50–59", "60 ke atas"] },
+  { id: "pendidikan", label: "Pendidikan terakhir", opsi: ["SD ke bawah", "SMP", "SMA/SMK", "D1–D3", "D4/S1", "S2 ke atas"] },
+  { id: "pekerjaan", label: "Pekerjaan", opsi: ["PNS/TNI/Polri", "Pegawai swasta", "Wiraswasta", "Petani/Nelayan", "Pelajar/Mahasiswa", "Ibu rumah tangga", "Lainnya"] },
+  { id: "penjamin", label: "Cara pembayaran", opsi: ["BPJS Kesehatan", "Umum/biaya sendiri", "Asuransi lain"] }
+];
+
+// 9 unsur SKM, skala 1–4 (PermenPANRB No. 14 Tahun 2017)
+const TANYA = [
+  { id: "u1", unsur: "Persyaratan", q: "Apakah persyaratan pelayanan sesuai dengan jenis layanan yang Anda terima?", petunjuk: "Misalnya kartu identitas, kartu BPJS, atau surat rujukan.", opsi: ["Tidak sesuai", "Kurang sesuai", "Sesuai", "Sangat sesuai"] },
+  { id: "u2", unsur: "Prosedur", q: "Seberapa mudah alur pelayanan di unit ini?", petunjuk: "Mulai dari pendaftaran sampai selesai dilayani.", opsi: ["Tidak mudah", "Kurang mudah", "Mudah", "Sangat mudah"] },
+  { id: "u3", unsur: "Waktu pelayanan", q: "Seberapa cepat Anda mendapat pelayanan?", petunjuk: "", opsi: ["Tidak cepat", "Kurang cepat", "Cepat", "Sangat cepat"] },
+  { id: "u4", unsur: "Biaya", q: "Bagaimana kewajaran biaya atau tarif pelayanan?", petunjuk: "Jika Anda tidak membayar karena ditanggung BPJS, pilih Gratis.", opsi: ["Sangat mahal", "Cukup mahal", "Murah", "Gratis"] },
+  { id: "u5", unsur: "Hasil pelayanan", q: "Apakah pelayanan yang Anda terima sesuai dengan standar pelayanan yang diumumkan rumah sakit?", petunjuk: "", opsi: ["Tidak sesuai", "Kurang sesuai", "Sesuai", "Sangat sesuai"] },
+  { id: "u6", unsur: "Kemampuan petugas", q: "Bagaimana kemampuan dokter, perawat, dan staf dalam melayani Anda?", petunjuk: "", opsi: ["Tidak mampu", "Kurang mampu", "Mampu", "Sangat mampu"] },
+  { id: "u7", unsur: "Sikap petugas", q: "Bagaimana kesopanan dan keramahan petugas?", petunjuk: "", opsi: ["Tidak sopan dan ramah", "Kurang sopan dan ramah", "Sopan dan ramah", "Sangat sopan dan ramah"] },
+  { id: "u8", unsur: "Pengaduan", q: "Bagaimana penanganan pengaduan, saran, dan masukan di rumah sakit ini?", petunjuk: "Misalnya kotak saran, petugas pengaduan, atau layanan informasi.", opsi: ["Tidak ada", "Ada, tetapi tidak berfungsi", "Berfungsi, kurang maksimal", "Dikelola dengan baik"] },
+  { id: "u9", unsur: "Sarana dan prasarana", q: "Bagaimana kondisi sarana dan prasarana rumah sakit?", petunjuk: "Ruang tunggu, toilet, kebersihan, tempat duduk, dan parkir.", opsi: ["Buruk", "Cukup", "Baik", "Sangat baik"] }
+];
+
+const WAJAH = ["1", "2", "3", "4"];
+
+/* ============================================================
+   LOGIKA HALAMAN
+   ============================================================ */
+const $ = (s) => document.querySelector(s);
+const param = new URLSearchParams(location.search);
+const MODE_KIOS = param.get("kios") === "1" || param.get("kiosk") === "1";
+const UNIT_URL = UNIT.find(([kode]) => kode === (param.get("unit") || "").toLowerCase());
+
+const TOTAL = TANYA.length + 2; // profil + pertanyaan + saran
+const jawaban = {};
+let langkah = 0;
+let timerKios = null;
+
+function siapkanUnit() {
+  const sel = $("#unit");
+  sel.innerHTML = '<option value="">Pilih unit layanan</option>' +
+    UNIT.map(([kode, nama]) => `<option value="${nama}">${nama}</option>`).join("");
+  if (UNIT_URL) sel.value = UNIT_URL[1];
+}
+
+function siapkanProfil() {
+  $("#profil-isi").innerHTML = PROFIL.map((f) => `
+    <fieldset>
+      <legend>${f.label}</legend>
+      <div class="chip-grup">
+        ${f.opsi.map((o, i) => `
+          <input class="sr" type="radio" name="${f.id}" id="${f.id}-${i}" value="${o}">
+          <label for="${f.id}-${i}">${o}</label>`).join("")}
+      </div>
+    </fieldset>`).join("");
+}
+
+function tampilkanPertanyaan(i) {
+  const t = TANYA[i];
+  $("#q-unsur").textContent = t.unsur;
+  $("#q-teks").textContent = t.q;
+  $("#q-petunjuk").textContent = t.petunjuk;
+  $("#q-petunjuk").hidden = !t.petunjuk;
+  $("#q-opsi").innerHTML = t.opsi.map((o, k) => {
+    const nilai = k + 1;
+    return `
+      <input class="sr" type="radio" name="tanya" id="opsi-${nilai}" value="${nilai}" ${jawaban[t.id] === nilai ? "checked" : ""}>
+      <label for="opsi-${nilai}"><span class="wajah" aria-hidden="true">${WAJAH[k]}</span><span>${o}</span></label>`;
+  }).join("");
+  $("#q-opsi").querySelectorAll("input").forEach((inp) => {
+    inp.addEventListener("change", () => {
+      jawaban[t.id] = Number(inp.value);
+      setTimeout(() => ke(langkah + 1), 320);
+    });
+  });
+}
+
+function perbaruiProgres() {
+  const bar = $("#progres");
+  if (langkah < 1 || langkah > TOTAL) { bar.hidden = true; return; }
+  bar.hidden = false;
+  const persen = Math.round((langkah - 1) / TOTAL * 100);
+  $("#progres-isi").style.width = persen + "%";
+  $("#progres-bar").setAttribute("aria-valuenow", persen);
+  if (langkah === 1) { $("#progres-label").textContent = "Tentang Anda"; $("#progres-angka").textContent = ""; }
+  else if (langkah <= TANYA.length + 1) { $("#progres-label").textContent = `Pertanyaan ${langkah - 1} dari ${TANYA.length}`; $("#progres-angka").textContent = persen + "%"; }
+  else { $("#progres-label").textContent = "Langkah terakhir"; $("#progres-angka").textContent = persen + "%"; }
+}
+
+function ke(n) {
+  langkah = n;
+  let id;
+  if (n === 0) id = "layar-awal";
+  else if (n === 1) id = "layar-profil";
+  else if (n <= TANYA.length + 1) { id = "layar-tanya"; tampilkanPertanyaan(n - 2); }
+  else if (n === TANYA.length + 2) id = "layar-saran";
+  else id = "layar-selesai";
+
+  document.querySelectorAll(".layar").forEach((s) => s.classList.remove("aktif"));
+  const layar = document.getElementById(id);
+  void layar.offsetWidth; // mengulang animasi masuk
+  layar.classList.add("aktif");
+  perbaruiProgres();
+  window.scrollTo({ top: 0 });
+  const judul = layar.querySelector("[tabindex='-1']");
+  if (judul) judul.focus({ preventScroll: true });
+}
+
+function ambilProfil() {
+  const data = { unit: $("#unit").value };
+  const kurang = [];
+  if (!data.unit) kurang.push("Unit layanan");
+  PROFIL.forEach((f) => {
+    const pilih = document.querySelector(`input[name="${f.id}"]:checked`);
+    if (pilih) data[f.id] = pilih.value; else kurang.push(f.label);
+  });
+  return { data, kurang };
+}
+
+$("#lanjut-profil").addEventListener("click", () => {
+  const { kurang } = ambilProfil();
+  const g = $("#galat-profil");
+  if (kurang.length) {
+    g.textContent = "Lengkapi dulu: " + kurang.join(", ") + ".";
+    g.hidden = false;
+    return;
+  }
+  g.hidden = true;
+  ke(2);
+});
+
+$("#kembali-tanya").addEventListener("click", () => ke(langkah - 1));
+$("#kembali-saran").addEventListener("click", () => ke(langkah - 1));
+document.querySelectorAll("[data-ke]").forEach((b) =>
+  b.addEventListener("click", () => ke(Number(b.dataset.ke))));
+
+$("#kirim").addEventListener("click", async () => {
+  const tombol = $("#kirim");
+  const g = $("#galat-kirim");
+  const belum = TANYA.filter((t) => !jawaban[t.id]);
+  if (belum.length) {
+    g.textContent = "Masih ada pertanyaan yang belum dijawab. Tekan Kembali untuk melengkapinya.";
+    g.hidden = false;
+    return;
+  }
+
+  const { data } = ambilProfil();
+  TANYA.forEach((t) => (data[t.id] = jawaban[t.id]));
+  data.saran = $("#saran").value.trim();
+  data.website = $("#website").value; // jebakan bot, harus kosong
+
+  tombol.disabled = true;
+  tombol.textContent = "Mengirim…";
+  g.hidden = true;
+
+  try {
+    if (!CONFIG.SCRIPT_URL) {
+      await new Promise((r) => setTimeout(r, 600));
+      console.info("Mode uji, data tidak disimpan:", data);
+      $("#mode-uji").hidden = false;
+    } else {
+      await fetch(CONFIG.SCRIPT_URL, { method: "POST", mode: "no-cors", body: new URLSearchParams(data) });
+      $("#mode-uji").hidden = true;
+    }
+    ke(TANYA.length + 3);
+    if (MODE_KIOS) mulaiHitungKios();
+  } catch (e) {
+    g.textContent = "Penilaian belum terkirim. Periksa koneksi internet, lalu tekan Kirim penilaian lagi.";
+    g.hidden = false;
+  } finally {
+    tombol.disabled = false;
+    tombol.textContent = "Kirim penilaian";
+  }
+});
+
+function mulaiHitungKios() {
+  let sisa = CONFIG.JEDA_KIOS;
+  const el = $("#hitung");
+  el.textContent = `Kembali ke halaman awal dalam ${sisa} detik`;
+  clearInterval(timerKios);
+  timerKios = setInterval(() => {
+    sisa -= 1;
+    if (sisa <= 0) { ulangi(); return; }
+    el.textContent = `Kembali ke halaman awal dalam ${sisa} detik`;
+  }, 1000);
+}
+
+function ulangi() {
+  clearInterval(timerKios);
+  $("#hitung").textContent = "";
+  Object.keys(jawaban).forEach((k) => delete jawaban[k]);
+  $("#form-profil").reset();
+  if (UNIT_URL) $("#unit").value = UNIT_URL[1];
+  $("#saran").value = "";
+  $("#galat-profil").hidden = true;
+  $("#galat-kirim").hidden = true;
+  ke(0);
+}
+$("#ulang").addEventListener("click", ulangi);
+
+siapkanUnit();
+siapkanProfil();
+</script>
+</body>
+</html>
