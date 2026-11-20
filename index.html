@@ -545,6 +545,7 @@ const TOTAL = TANYA.length + 2; // profil + pertanyaan + saran
 const jawaban = {};
 let langkah = 0;
 let timerKios = null;
+let timerJawaban = null;
 
 function siapkanUnit() {
   const sel = $("#unit");
@@ -577,10 +578,31 @@ function tampilkanPertanyaan(i) {
       <input class="sr" type="radio" name="tanya" id="opsi-${nilai}" value="${nilai}" ${jawaban[t.id] === nilai ? "checked" : ""}>
       <label for="opsi-${nilai}"><span class="wajah" aria-hidden="true">${WAJAH[k]}</span><span>${o}</span></label>`;
   }).join("");
-  $("#q-opsi").querySelectorAll("input").forEach((inp) => {
-    inp.addEventListener("change", () => {
-      jawaban[t.id] = Number(inp.value);
-      setTimeout(() => ke(langkah + 1), 320);
+  // Simpan jawaban dan lanjut otomatis. Timer dijaga agar navigasi Kembali
+  // tidak tertimpa oleh timer dari pertanyaan sebelumnya.
+  const pilihJawaban = (nilai) => {
+    jawaban[t.id] = Number(nilai);
+    clearTimeout(timerJawaban);
+    const langkahSaatIni = langkah;
+    timerJawaban = setTimeout(() => {
+      // Pastikan responden masih berada pada pertanyaan yang sama.
+      if (langkah === langkahSaatIni && jawaban[t.id] === Number(nilai)) {
+        ke(langkahSaatIni + 1);
+      }
+    }, 320);
+  };
+
+  const opsi = $("#q-opsi");
+  opsi.querySelectorAll("input").forEach((inp) => {
+    inp.addEventListener("change", () => pilihJawaban(inp.value));
+  });
+
+  // Radio yang sudah terpilih tidak memicu event "change" saat diklik lagi.
+  // Tangani klik pada label agar pilihan yang sama tetap bisa dipilih ulang.
+  opsi.querySelectorAll("label").forEach((label) => {
+    label.addEventListener("click", () => {
+      const inp = document.getElementById(label.htmlFor);
+      if (inp && inp.checked) pilihJawaban(inp.value);
     });
   });
 }
@@ -598,6 +620,9 @@ function perbaruiProgres() {
 }
 
 function ke(n) {
+  // Batalkan auto-lanjut tertunda saat responden berpindah layar secara manual.
+  clearTimeout(timerJawaban);
+  timerJawaban = null;
   langkah = n;
   let id;
   if (n === 0) id = "layar-awal";
